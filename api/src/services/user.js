@@ -55,7 +55,7 @@ class User {
             password_hash: this.data.passwordHash,
             role: this.data.role
         };
-        if (!this.id) {
+        if (!this.data.id) {
             return UserModel.createUser(user);
         }
         return UserModel.update(user, {
