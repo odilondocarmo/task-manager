@@ -8,7 +8,8 @@ class UsersController {
             user.build(data);
             await user.validate();
             await user.save();
-            return res.json(user.getPublicData());
+            const response = user.getPublicData();
+            return res.json(response);
         } catch (err) {
             err.status = 400;
             return next(err);
@@ -21,7 +22,8 @@ class UsersController {
             const user = new User();
             user.build({ username });
             await user.load();
-            return res.json(user.getPublicData());
+            const response = user.getPublicData();
+            return res.json(response);
         } catch (err) {
             return next(err);
         }
