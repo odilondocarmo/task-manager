@@ -1,0 +1,33 @@
+{
+  "name": "api-task-manager",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/server.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "test": "jest",
+    "test:cov": "jest --coverage",
+    "prettier-format": "prettier --config .prettierrc src/**/*.js --write"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "helmet": "^6.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.25.7",
+    "sequelize-cli": "^6.5.2",
+    "yup": "^0.32.11"
+  },
+  "devDependencies": {
+    "jest": "^29.3.1",
+    "prettier": "^2.7.1"
+  }
+}
