@@ -16,7 +16,7 @@ class User {
     build({ id, username, password, role, password_hash }) {
         this.data.username = username;
         this.data.password = password;
-        if(password || password_hash){
+        if (password || password_hash) {
             this.data.passwordHash = password_hash || hashSync(password, 10);
         }
         this.data.role = role;
@@ -40,8 +40,8 @@ class User {
 
     async checkPassword(password) {
         if (!this.passwordHash) return invalidPassword();
-        const isValid = await compare(password, this.password_hash)
-        if(!isValid) return invalidPassword()
+        const isValid = await compare(password, this.password_hash);
+        if (!isValid) return invalidPassword();
     }
 
     async validate() {

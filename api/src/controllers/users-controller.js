@@ -11,7 +11,6 @@ class UsersController {
             return res.json(user.getPublicData());
         } catch (err) {
             err.status = 400;
-            console.log(err.message)
             return next(err);
         }
     }

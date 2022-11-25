@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { invalidInput } from '../helpers/error-handler.js';
-import { secret, expiresIn } from '../config/auth.js'
+import { secret, expiresIn } from '../config/auth.js';
 
 class Session {
     constructor(username, password) {
@@ -10,7 +10,7 @@ class Session {
         this.request = {
             username,
             password
-        }
+        };
     }
 
     generateToken({ id, role }) {
