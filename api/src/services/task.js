@@ -17,8 +17,8 @@ class Task {
     async load() {
         const { id } = this;
         const task = await TaskModel.getTaskById(id);
-        if(!task) {
-            return invalidInput('Task not found')
+        if (!task) {
+            return invalidInput('Task not found');
         }
         this.taskInstance = task;
         this.summary = task.summary;
@@ -31,19 +31,25 @@ class Task {
         return TaskModel.deleteTask(this.id);
     }
 
-    save() {
+    async save() {
         const data = {
             summary: this.summary,
             performed_at: this.performedAt
         };
+        let task = null
         if (!this.id) {
-            return TaskModel.create(data);
+            task = await TaskModel.create(data);
+            
+        }else {
+            task = await TaskModel.update(data, {
+                where: {
+                    id: this.id
+                },
+                returning: true
+            });
         }
-        return TaskModel.update(data, {
-            where: {
-                id: this.id
-            }
-        });
+        this.build(task)
+        return task
     }
 }
 
