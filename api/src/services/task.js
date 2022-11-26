@@ -1,5 +1,5 @@
 import TaskModel from '../database/models/task.js';
-import { invalidInput, invalidRole } from '../helpers/error-handler';
+import { invalidInput, invalidRole } from '../helpers/error-handler.js';
 
 class Task {
     constructor() {
@@ -8,10 +8,11 @@ class Task {
         this.performedAt = null;
     }
 
-    build({ summary, id, performedAt }) {
+    build({ summary, id, performedAt, userId }) {
         this.summary = summary;
         this.id = id;
         this.performedAt = performedAt;
+        this.userId = userId
     }
 
     async load(id, userId, role) {
@@ -26,6 +27,7 @@ class Task {
         this.summary = task.summary;
         this.id = id;
         this.performedAt = task.performed_at;
+        this.userId = task.id_user;
         return task;
     }
 
@@ -39,7 +41,8 @@ class Task {
     async save() {
         const data = {
             summary: this.summary,
-            performed_at: this.performedAt
+            performed_at: this.performedAt,
+            id_user: this.userId
         };
         let task = null;
         if (!this.id) {

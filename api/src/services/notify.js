@@ -7,8 +7,10 @@ class Notify {
     }
 
     async init() {
-        this.connection = await amqplib.connect('amqp://localhost');
-        this.channel = await this.connection.createChannel();
+        if(!this.connection || !this.channel){
+            this.connection = await amqplib.connect('amqp://admin:admin@localhost');
+            this.channel = await this.connection.createChannel();
+        }
     }
 
     async send() {
