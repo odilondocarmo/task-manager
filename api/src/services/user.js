@@ -1,5 +1,5 @@
 import { compare, hashSync } from 'bcrypt';
-import { invalidPassword } from '../helpers/error-handler.js';
+import { invalidInput, invalidPassword } from '../helpers/error-handler.js';
 import UserModel from '../database/models/user.js';
 import UserSchema from '../schemas/user.js';
 
@@ -33,14 +33,17 @@ class User {
 
     async load() {
         const user = await UserModel.getUser(this.data.username);
+        if(!user) {
+            return invalidInput('invalid username')
+        }
         this.build(user);
         this.userInstance = user;
         return user;
     }
 
     async checkPassword(password) {
-        if (!this.passwordHash) return invalidPassword();
-        const isValid = await compare(password, this.password_hash);
+        if (!this.data.passwordHash) return invalidPassword();
+        const isValid = await this.userInstance.checkPassword(password)
         if (!isValid) return invalidPassword();
     }
 
