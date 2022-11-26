@@ -6,7 +6,6 @@ class UsersController {
         try {
             const user = new User();
             user.build(data);
-            await user.validate();
             await user.save();
             const response = user.getPublicData();
             return res.json(response);

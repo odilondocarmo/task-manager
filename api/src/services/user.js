@@ -44,17 +44,14 @@ class User {
         if (!isValid) return invalidPassword();
     }
 
-    async validate() {
-        const schema = new UserSchema();
-        await schema.validate(this.data);
-    }
-
     async save() {
         const user = {
             username: this.data.username,
             password_hash: this.data.passwordHash,
             role: this.data.role
         };
+        const schema = new UserSchema();
+        await schema.validate(user);
         if (!this.data.id) {
             return UserModel.createUser(user);
         }

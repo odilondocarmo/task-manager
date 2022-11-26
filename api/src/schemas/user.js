@@ -3,7 +3,7 @@ class Schema {
     constructor() {
         this.shape = object().shape({
             username: string().required(),
-            passwordHash: string().required().min(3),
+            password_hash: string().required().min(3),
             role: string().oneOf(['manager', 'developer'])
         });
     }
