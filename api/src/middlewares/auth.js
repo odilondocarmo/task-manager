@@ -14,8 +14,8 @@ export async function isUser(req, res, next) {
         const { id, role } = await promisify(jwt.verify)(token, secret);
 
         if (!id) return next(invalidInput('Invalid token'));
-        req.clientId = id;
-        req.clientRole = role;
+        req.userId = id;
+        req.userRole = role;
         return next();
     } catch (err) {
         return next(err);
@@ -23,7 +23,7 @@ export async function isUser(req, res, next) {
 }
 
 export async function isManager(req, res, next) {
-    if (req.clientRole === 'manager') {
+    if (req.userRole === 'manager') {
         return next();
     }
     return next(invalidRole());

@@ -1,5 +1,5 @@
 import TaskModel from '../database/models/task.js';
-import { invalidInput } from '../helpers/error-handler';
+import { invalidInput, invalidRole } from '../helpers/error-handler';
 
 class Task {
     constructor() {
@@ -14,11 +14,13 @@ class Task {
         this.performedAt = performedAt;
     }
 
-    async load() {
-        const { id } = this;
+    async load(id, userId, role) {
         const task = await TaskModel.getTaskById(id);
         if (!task) {
             return invalidInput('Task not found');
+        }
+        if(userId !== task.id_user && role !== 'manager'){
+            return invalidRole()
         }
         this.taskInstance = task;
         this.summary = task.summary;
@@ -27,7 +29,10 @@ class Task {
         return task;
     }
 
-    delete() {
+    delete(role) {
+        if(role !== 'manager') {
+            return invalidRole()
+        }
         return TaskModel.deleteTask(this.id);
     }
 
@@ -36,11 +41,10 @@ class Task {
             summary: this.summary,
             performed_at: this.performedAt
         };
-        let task = null
+        let task = null;
         if (!this.id) {
             task = await TaskModel.create(data);
-            
-        }else {
+        } else {
             task = await TaskModel.update(data, {
                 where: {
                     id: this.id
@@ -48,8 +52,19 @@ class Task {
                 returning: true
             });
         }
-        this.build(task)
-        return task
+        this.build(task);
+        return task;
+    }
+
+    async getAllTasks(userId, userRole){
+        const option = {};
+        if (userRole !== 'manager') {
+            option.where = {
+                id: userId
+            };
+        }
+        const tasks = await TaskModel.findAll(option);
+        return tasks
     }
 }
 
