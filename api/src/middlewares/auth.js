@@ -23,8 +23,13 @@ export async function isUser(req, res, next) {
 }
 
 export async function isManager(req, res, next) {
-    if (req.userRole === 'manager') {
-        return next();
+    try{
+        if (req.userRole === 'manager') {
+            return next();
+        }
+        invalidRole()
+    }catch(err){
+        return next(err);
     }
-    return next(invalidRole());
+    
 }
