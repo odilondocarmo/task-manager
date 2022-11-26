@@ -19,8 +19,8 @@ class Task {
         if (!task) {
             return invalidInput('Task not found');
         }
-        if(userId !== task.id_user && role !== 'manager'){
-            return invalidRole()
+        if (userId !== task.id_user && role !== 'manager') {
+            return invalidRole();
         }
         this.taskInstance = task;
         this.summary = task.summary;
@@ -30,8 +30,8 @@ class Task {
     }
 
     delete(role) {
-        if(role !== 'manager') {
-            return invalidRole()
+        if (role !== 'manager') {
+            return invalidRole();
         }
         return TaskModel.deleteTask(this.id);
     }
@@ -56,7 +56,7 @@ class Task {
         return task;
     }
 
-    async getAllTasks(userId, userRole){
+    async getAllTasks(userId, userRole) {
         const option = {};
         if (userRole !== 'manager') {
             option.where = {
@@ -64,7 +64,7 @@ class Task {
             };
         }
         const tasks = await TaskModel.findAll(option);
-        return tasks
+        return tasks;
     }
 }
 

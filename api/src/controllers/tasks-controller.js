@@ -1,4 +1,5 @@
 import Task from '../services/task.js';
+import Notify from '../services/notify.js';
 
 class TaskController {
     async create(req, res, next) {
@@ -40,8 +41,8 @@ class TaskController {
 
     async show(req, res, next) {
         try {
-            const task = new Task()
-            const tasks = await task.getAllTasks(req.userId, req.userRole)
+            const task = new Task();
+            const tasks = await task.getAllTasks(req.userId, req.userRole);
             return res.json({ tasks });
         } catch (err) {
             return next(err);
@@ -60,17 +61,20 @@ class TaskController {
         }
     }
 
-    async performTask(req, res, next){
-        try{
-            const { id } = req.params
-            const { userId, userRole } = req
-            const task = new Task()
-            await task.load(id, userId, userRole)
-            task.performedAt = new Date()
-            const response = await task.save()
-            return res.json(response)
-        }catch(err){
-            return next(err)
+    async performTask(req, res, next) {
+        try {
+            const { id } = req.params;
+            const { userId, userRole } = req;
+            const task = new Task();
+            await task.load(id, userId, userRole);
+            task.performedAt = new Date();
+            const response = await task.save();
+            const notification = new Notify(response);
+            await notification.init();
+            await notification.send();
+            return res.json(response);
+        } catch (err) {
+            return next(err);
         }
     }
 }
