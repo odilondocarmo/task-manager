@@ -4,9 +4,10 @@ import Notify from '../services/notify.js';
 class TaskController {
     async create(req, res, next) {
         try {
-            const { summary } = req;
+            const { summary } = req.body;
+            const { userId } = req;
             const task = new Task();
-            task.build({ summary });
+            task.build({ summary, userId });
             const response = await task.save();
             return res.json(response);
         } catch (err) {

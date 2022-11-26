@@ -22,10 +22,7 @@ class User extends Model {
 
     static getUser(username) {
         return this.findOne({
-            where: { username },
-            attributes: {
-                exclude: ['password_hash']
-            }
+            where: { username }
         });
     }
 
