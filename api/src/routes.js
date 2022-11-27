@@ -17,10 +17,10 @@ routes.get('/users/:id', UsersController.index);
 routes.get('/tasks/:id', TaskController.index);
 routes.get('/tasks', TaskController.show);
 routes.post('/tasks', TaskController.create);
-routes.delete('/tasks/:id', TaskController.delete);
 routes.post('/tasks/perform/:id', TaskController.performTask);
 
 routes.use(isManager); //only managers
 routes.post('/user', UsersController.create);
+routes.delete('/tasks/:id', TaskController.delete);
 
 export default routes;

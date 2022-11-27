@@ -10,7 +10,8 @@ A API developer pratical exercise
 
 - Manage User
 - Manage Tasks
-- Send Notifications
+- Perform Task
+  - Send Notification
 
 
 ## Run api localy
@@ -56,7 +57,7 @@ Run project
 
 #### Get Token
 
-```http
+```curl
   curl --location --request POST 'localhost:3333/sessions' \
     --header 'Content-Type: application/json' \
     --data-raw '{
@@ -72,7 +73,7 @@ Run project
 
 #### Create a User
 
-```http
+```curl
   curl --location --request POST 'localhost:3333/user' \
     --header 'Authorization: Bearer {{token}}' \
     --header 'Content-Type: application/json' \
@@ -92,7 +93,7 @@ Run project
 
 #### Create a Task
 
-```http
+```curl
   curl --location --request POST 'localhost:3333/tasks' \
   --header 'Authorization: Bearer {{token}}' \
   --header 'Content-Type: application/json' \
@@ -108,7 +109,7 @@ Run project
 
 #### List All Tasks
 
-```http
+```curl
   curl --location --request GET 'localhost:3333/tasks' \
   --header 'Authorization: Bearer {{token}}'
 ```
@@ -119,8 +120,32 @@ Run project
 
 #### Perform Task
 
-```http
+```curl
   curl --location --request POST 'localhost:3333/tasks/perform/{{taskId}}' \
+  --header 'Authorization: Bearer {{token}}'
+```
+
+| Param   | Type       | Description                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `taskId` | `integer` | **Required**. The task id |
+| `token` | `string` | **Required**. The api token |
+
+#### Show a Task
+
+```curl
+  curl --location --request GET 'localhost:3333/tasks/{{taskId}}' \
+  --header 'Authorization: Bearer {{token}}'
+```
+
+| Param   | Type       | Description                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `taskId` | `integer` | **Required**. The task id |
+| `token` | `string` | **Required**. The api token |
+
+#### Delete Task
+
+```curl
+  curl --location --request DELETE 'localhost:3333/tasks/{{taskId}}' \
   --header 'Authorization: Bearer {{token}}'
 ```
 

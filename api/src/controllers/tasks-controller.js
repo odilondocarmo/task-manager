@@ -19,7 +19,7 @@ class TaskController {
         try {
             const { id } = req.params;
             const task = new Task();
-            await task.load(id);
+            await task.load(id, req.userId, req.userRole);
             return res.json(task.taskInstance);
         } catch (err) {
             return next(err);
@@ -54,7 +54,7 @@ class TaskController {
         try {
             const { id } = req.params;
             const task = new Task();
-            await task.load(id);
+            await task.load(id, req.userId, req.userRole);
             const response = await task.delete(req.userRole);
             return res.json(response);
         } catch (err) {
