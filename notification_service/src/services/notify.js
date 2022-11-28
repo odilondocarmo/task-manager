@@ -1,8 +1,9 @@
 import amqplib from 'amqplib';
 
 class Notify {
-    constructor(data) {
-        this.buffer = Buffer.from(JSON.stringify(data));
+    constructor() {
+        this.connection = null
+        this.channel = null
         this.queueName = process.env.QUEUE_NAME || 'notifications'
     }
 
@@ -10,11 +11,16 @@ class Notify {
         if(!this.connection || !this.channel){
             this.connection = await amqplib.connect(process.env.QUEUE_URI || 'amqp://admin:admin@localhost');
             this.channel = await this.connection.createChannel();
+            this.channel.assertQueue(this.queueName)
         }
     }
 
-    async send() {
-        return this.channel.sendToQueue(this.queueName, this.buffer);
+    async startConsumer(callback) {
+        return this.channel.consume(this.queueName, message => {
+            const resp = message.content.toString()
+            this.channel.ack(message)
+            return callback(resp)
+        });
     }
 }
 
