@@ -25,6 +25,18 @@ Clone project
 Enter project directory
 
 ```bash
+  cd .\task-manager\
+```
+
+[Optional] RabbitMQ and MySQL services
+
+```bash
+  docker-compose up
+```
+
+Enter api directory
+
+```bash
   cd .\task-manager\api\
 ```
 
