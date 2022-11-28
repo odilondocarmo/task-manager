@@ -1,0 +1,10 @@
+{
+    "userMock": {
+        "username": "userTest123321",
+        "password": "123456",
+        "role": "manager"
+    },
+    "taskMock": {
+        "summary": "Test of summary"
+    }
+}

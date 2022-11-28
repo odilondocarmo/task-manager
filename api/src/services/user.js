@@ -45,6 +45,7 @@ class User {
         if (!this.data.passwordHash) return invalidPassword();
         const isValid = await this.userInstance.checkPassword(password)
         if (!isValid) return invalidPassword();
+        return isValid
     }
 
     async save() {
@@ -56,7 +57,10 @@ class User {
         const schema = new UserSchema();
         await schema.validate(user);
         if (!this.data.id) {
-            return UserModel.createUser(user);
+            const userInstance = await UserModel.createUser(user);
+            this.data.id = userInstance.id
+            this.userInstance = userInstance
+            return userInstance
         }
         return UserModel.update(user, {
             where: { id: this.data.id }
